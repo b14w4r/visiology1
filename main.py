@@ -10,7 +10,7 @@ def append_dict_to_xlsx(file_path, data_dict):
     if not os.path.exists(file_path):
         wb = Workbook()
         ws = wb.active
-        ws.append(list(data_dict.keys()))  # Записываем заголовки
+        ws.append(list(data_dict.keys()))
         wb.save(file_path)
 
     wb = load_workbook(file_path)
@@ -37,16 +37,5 @@ def convert_xlsx_to_csv(xlsx_file, csv_file):
     df.to_csv(csv_file, index=False)
 
 
-def injection(csv_file):
-    connection = db.create_engine('postgresql://myuser:mypassword@localhost:5432/mydb')
-    csv_file.to_sql('HRDB', connection, index=False, if_exists='replace', dtype={
-        "Name": db.VARCHAR(255),
-        "City": db.VARCHAR(255),
-        "Age": db.Integer(),
-    })
-
-# append_dict_to_xlsx("data.xlsx", data)
-# convert_xlsx_to_csv("data.xlsx", "data.csv")
-csv_file = pd.read_csv('data.csv')  # Замени на свой файл
-
-injection(csv_file)
+append_dict_to_xlsx("data.xlsx", data)
+convert_xlsx_to_csv("data.xlsx", "data.csv")
